@@ -1,18 +1,22 @@
-name: Python Tests
+name: Python Matrix Tests
 
 on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10"] # Tutaj definiujemy wersje Pythona do testowania
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Python
+    - name: Set up Python ${{ matrix.python-version }} # Używamy zmiennej z matrix
       uses: actions/setup-python@v5
       with:
-        python-version: '3.x' # Możesz określić konkretną wersję, np. '3.9'
+        python-version: ${{ matrix.python-version }} # Przekazujemy wersję Pythona z matrix
 
     - name: Install dependencies
       run: pip install -r requirements.txt
